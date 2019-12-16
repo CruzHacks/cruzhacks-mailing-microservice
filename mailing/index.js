@@ -1,4 +1,4 @@
-const { authenticateApiKey } = require("./authentication");
+const { authenticateApiKey } = require("./middleware");
 
 module.exports = async function(context, req) {
   const isAuthenticated = authenticateApiKey(context, req);
@@ -14,4 +14,6 @@ module.exports = async function(context, req) {
     };
     context.done();
   }
+
+  if ()
 };
