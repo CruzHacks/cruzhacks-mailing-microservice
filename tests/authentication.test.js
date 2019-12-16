@@ -1,3 +1,5 @@
+// Test for API key authintication
+
 const { authenticateApiKey } = require("../mailing/authentication");
 
 describe("api key authentication middleware uit tests", () => {
