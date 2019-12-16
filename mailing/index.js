@@ -29,7 +29,7 @@ module.exports = async function(context, req) {
     context.done();
   }
 
-  await addToMailingList(requestEmail)
+  await addToMailingList(context, requestEmail)
     .then(response => {
       if (response === true) {
         context.res = {

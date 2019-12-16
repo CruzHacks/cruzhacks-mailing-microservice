@@ -11,14 +11,13 @@ const authenticateApiKey = (functionContext, requestObject) => {
 };
 
 const parseEmailFromRequest = (functionContext, requestObject) => {
-  const { email } = requestObject.body;
   const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-  if (!emailRegexp.test(email)) {
+  if (requestObject.body === undefined || !emailRegexp.test(requestObject.body.email)) {
     return null;
   }
 
-  return email;
+  return requestObject.body.email;
 };
 
 module.exports = {

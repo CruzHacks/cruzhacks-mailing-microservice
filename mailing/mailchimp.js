@@ -1,9 +1,9 @@
 const axios = require("axios");
 
 const mailchimpConfiguration = {
-  userName: process.env.MAILCHIMP_USER,
-  password: process.env.MAILCHIMP_SECRET,
-  endpoint: process.env.MAILCHIMP_SUBSCRIBERS_ENDPOINT,
+  userName: `${process.env.MAILCHIMP_USER}`,
+  password: `${process.env.MAILCHIMP_SECRET}`,
+  endpoint: `${process.env.MAILCHIMP_SUBSCRIBERS_ENDPOINT}`,
 };
 
 const requestConfiguration = {
@@ -17,7 +17,7 @@ const requestConfiguration = {
   },
 };
 
-const addToMailingList = email => {
+const addToMailingList = (functionContext, email) => {
   const requestBody = {
     email_address: email,
     status: "subscribed",
@@ -29,7 +29,9 @@ const addToMailingList = email => {
       return Promise.resolve(true);
     })
     .catch(error => {
-      return Promise.reject(new Error(`Mailchimp Error: ${error.response.status}`));
+      const errorMessage = error.isAxiosError === true ? "Axios Error!" : error.response.status;
+      functionContext.log.error(error);
+      return Promise.reject(new Error(`Mailchimp Error: ${errorMessage}`));
     });
 };
 
