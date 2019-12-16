@@ -46,7 +46,7 @@ describe("tests for parsing the email from the request body", () => {
     expect(parseEmailFromRequest(contextMock, request)).toBe("hanktheturkey@ucsc.edu");
   });
 
-  test("should return target email with characters", () => {
+  test("should return target email with symbols", () => {
     const request = {
       body: {
         email: "han-kth+eturkey@ucsc.edu",
