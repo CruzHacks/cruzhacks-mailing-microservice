@@ -31,25 +31,14 @@ module.exports = async function(context, req) {
 
   await addToMailingList(context, requestEmail)
     .then(response => {
-      if (response === true) {
-        context.res = {
+      context.res = {
+        status: 200,
+        body: {
+          error: false,
           status: 200,
-          body: {
-            error: false,
-            status: 200,
-            message: `${requestEmail} added to the mailing list`,
-          },
-        };
-      } else {
-        context.res = {
-          status: 500,
-          body: {
-            error: true,
-            status: 500,
-            message: "An internal server error occured",
-          },
-        };
-      }
+          message: `${requestEmail} added to the mailing list`,
+        },
+      };
     })
     .catch(error => {
       context.res = {
