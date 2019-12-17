@@ -6,7 +6,7 @@ module.exports = async function(context, req) {
   const requestEmail = parseEmailFromRequest(context, req);
 
   if (isAuthenticated === false) {
-    context.res = {
+    return {
       status: 401,
       body: {
         error: true,
@@ -14,11 +14,10 @@ module.exports = async function(context, req) {
         message: "Unable to authenticate request",
       },
     };
-    context.done();
   }
 
   if (requestEmail === null) {
-    context.res = {
+    return {
       status: 400,
       body: {
         error: true,
@@ -26,12 +25,11 @@ module.exports = async function(context, req) {
         message: "Invalid of missing email in requets body",
       },
     };
-    context.done();
   }
 
-  await addToMailingList(context, requestEmail)
-    .then(response => {
-      context.res = {
+  return addToMailingList(context, requestEmail)
+    .then(() => {
+      return {
         status: 200,
         body: {
           error: false,
@@ -41,7 +39,7 @@ module.exports = async function(context, req) {
       };
     })
     .catch(error => {
-      context.res = {
+      return {
         status: 500,
         body: {
           error: true,
@@ -49,8 +47,5 @@ module.exports = async function(context, req) {
           message: error.message,
         },
       };
-    })
-    .finally(() => {
-      context.done();
     });
 };
