@@ -5,8 +5,11 @@ describe("mailchimp unit tests", () => {
   const email = "hankturkey@ucsc.edu";
 
   test("should return true when request suceeds", () => {
-    mockAxios.post.mockImplementationOnce(() => Promise.resolve({}));
-    return expect(addToMailingList(email)).resolves.toBe(true);
+    mockAxios.post.mockImplementationOnce(() => Promise.resolve({ data: {} }));
+    const fakeContext = {
+      log: jest.fn(),
+    };
+    return expect(addToMailingList(fakeContext, email)).resolves.toBe(true);
   });
 
   // ! Could Not Get Test To Work
