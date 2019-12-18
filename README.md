@@ -4,7 +4,27 @@
 
 This Azure Function is responsible for the CruzHacks mailing list. This service uses the MailChimp REST API.
 
-## Environment Variables
+## Development
+
+### Dependnecies
+
+- [Azure Function Cole Tools CLI](https://github.com/Azure/azure-functions-core-tools)
+- Local NPM packages --> `npm install`
+
+### Start
+
+`func start`
+
+or via Docker
+
+`docker build -t cruzhacks-mailing-service .`
+`docker run -p 7071:80 cruzhacks-mailing-service`
+
+### Test
+
+This project uses [Jest](https://jestjs.io/). Run all tests via `npm run test`. 
+
+### Environment Variables
 
 `API_KEY`
 `MAILCHIMP_SECRET`
