@@ -12,19 +12,24 @@ describe("mailchimp unit tests", () => {
     return expect(addToMailingList(fakeContext, email)).resolves.toBe(true);
   });
 
-  // ! Could Not Get Test To Work
-  //   test("should return error code when request fails", () => {
-  //     mockAxios.post.mockImplementationOnce(() =>
-  //       // eslint-disable-next-line prefer-promise-reject-errors
-  //       Promise.reject({
-  //         error: {
-  //           isAxiosError: true,
-  //           response: {
-  //             status: 401,
-  //           },
-  //         },
-  //       }),
-  //     );
-  //     return expect(addToMailingList(email)).rejects.toThrow("Mailchimp Error: 401");
-  //   });
+  test("should return error message when request fails", () => {
+    const fakeContext = {
+      log: {
+        error: jest.fn(),
+      },
+    };
+    const errorResponse = {
+      isAxiosError: true,
+      response: {
+        status: 401,
+        data: {
+          detail: "hankturkey@ucsc.edu is already a list member...",
+        },
+      },
+    };
+    const targetErrorMessage = "Mailchimp Error: hankturkey@ucsc.edu is already a list member...";
+
+    mockAxios.post.mockImplementationOnce(() => Promise.reject(errorResponse));
+    return expect(addToMailingList(fakeContext, email)).rejects.toThrow(targetErrorMessage);
+  });
 });
