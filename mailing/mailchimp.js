@@ -25,13 +25,13 @@ const addToMailingList = (functionContext, email) => {
 
   return axios
     .post(mailchimpConfiguration.endpoint, requestBody, requestConfiguration)
-    .then(() => {
+    .then(response => {
+      functionContext.log(JSON.stringify(response.data, null, 2));
       return Promise.resolve(true);
     })
     .catch(error => {
-      const errorMessage = error.isAxiosError === true ? "Axios Error!" : error.response.status;
-      functionContext.log.error(error);
-      return Promise.reject(new Error(`Mailchimp Error: ${errorMessage}`));
+      functionContext.log.error(error.response.data.detail);
+      return Promise.reject(new Error(`Mailchimp Error: ${error.response.data.detail}`));
     });
 };
 
