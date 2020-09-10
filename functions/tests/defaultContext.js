@@ -1,7 +1,8 @@
 module.exports = {
   res: jest.fn(),
   done: jest.fn(),
-  log: {
+  logger: {
     error: jest.fn(),
+    info: jest.fn(),
   },
 };

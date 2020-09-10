@@ -1,7 +1,12 @@
 {
-    "azureFunctions.deploySubpath": ".",
-    "azureFunctions.projectLanguage": "JavaScript",
-    "azureFunctions.projectRuntime": "~2",
-    "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.preDeployTask": "npm prune"
+  "azureFunctions.deploySubpath": ".",
+  "azureFunctions.projectLanguage": "JavaScript",
+  "azureFunctions.projectRuntime": "~2",
+  "debug.internalConsoleOptions": "neverOpen",
+  "azureFunctions.preDeployTask": "npm prune",
+  "deepcode.uploadApproved": true,
+  "jest.pathToJest": "functions/node_modules/.bin/jest",
+  "jest.pathToConfig": "functions/jest.config.js",
+  "jestrunner.jestPath": "functions/node_modules/.bin/jest",
+  "jestrunner.configPath": "functions/jest.config.js"
 }

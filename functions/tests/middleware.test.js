@@ -1,6 +1,6 @@
 // Test for API key authintication
 
-const { authenticateApiKey, parseEmailFromRequest } = require("../mailing/middleware");
+const { authenticateApiKey, parseEmailFromRequest } = require("../../mailing/middleware");
 
 describe("api key authentication middleware uit tests", () => {
   const contextMock = {};
@@ -43,7 +43,7 @@ describe("tests for parsing the email from the request body", () => {
         email: "hanktheturkey@ucsc.edu",
       },
     };
-    expect(parseEmailFromRequest(contextMock, request)).toBe("hanktheturkey@ucsc.edu");
+    expect(parseEmailFromRequest(request)).toBe("hanktheturkey@ucsc.edu");
   });
 
   test("should return target email with symbols", () => {
@@ -52,14 +52,14 @@ describe("tests for parsing the email from the request body", () => {
         email: "han-kth+eturkey@ucsc.edu",
       },
     };
-    expect(parseEmailFromRequest(contextMock, request)).toBe("han-kth+eturkey@ucsc.edu");
+    expect(parseEmailFromRequest(request)).toBe("han-kth+eturkey@ucsc.edu");
   });
 
   test("should return null for missing email", () => {
     const request = {
       body: {},
     };
-    expect(parseEmailFromRequest(contextMock, request)).toBe(null);
+    expect(parseEmailFromRequest(request)).toBe(null);
   });
 
   test("should return null for invalid email", () => {
@@ -68,7 +68,7 @@ describe("tests for parsing the email from the request body", () => {
         email: "hankturkey.edu",
       },
     };
-    expect(parseEmailFromRequest(contextMock, request)).toBe(null);
+    expect(parseEmailFromRequest(request)).toBe(null);
   });
 
   test("should return null for null email", () => {
@@ -77,6 +77,6 @@ describe("tests for parsing the email from the request body", () => {
         email: null,
       },
     };
-    expect(parseEmailFromRequest(contextMock, request)).toBe(null);
+    expect(parseEmailFromRequest(request)).toBe(null);
   });
 });
