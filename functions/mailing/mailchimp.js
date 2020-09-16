@@ -17,7 +17,7 @@ const requestConfiguration = {
   },
 };
 
-const addToMailingList = (functionContext, email) => {
+const addToMailingList = (email) => {
   const requestBody = {
     email_address: email,
     status: "subscribed",
@@ -25,12 +25,12 @@ const addToMailingList = (functionContext, email) => {
 
   return axios
     .post(mailchimpConfiguration.endpoint, requestBody, requestConfiguration)
-    .then(response => {
-      functionContext.log(JSON.stringify(response.data, null, 2));
+    .then((response) => {
+      functions.logger.info(JSON.stringify(response.data, null, 2));
       return Promise.resolve(true);
     })
-    .catch(error => {
-      functionContext.log.error(error.response.data.detail);
+    .catch((error) => {
+      functions.logger.error(error.response.data.detail);
       return Promise.reject(new Error(`Mailchimp Error: ${error.response.data.detail}`));
     });
 };

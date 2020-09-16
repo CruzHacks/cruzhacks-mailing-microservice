@@ -1,21 +1,32 @@
 const context = require("./defaultContext");
-const httpFunction = require("../mailing/index");
-const { addToMailingList } = require("../mailing/mailchimp");
-const { authenticateApiKey, parseEmailFromRequest } = require("../mailing/middleware");
+const httpFunction = require("../index");
 
-jest.mock("../mailing/middleware");
-jest.mock("../mailing/mailchimp");
+const { addToMailingList } = require("./mailing/mailchimp");
+const { authenticateApiKey, parseEmailFromRequest } = require("./mailing/middleware");
+const response = {
+  status: jest.fn(() => {
+    return response.send;
+  }),
+  send: jest.fn(),
+};
+const responseSpy = jest.spyOn(response, "status").mockImplementation(() => {});
+
+jest.mock("../../mailing/middleware");
+jest.mock("../../mailing/mailchimp");
 
 describe("unit tests for index.js driver", () => {
   describe("test api key auth", () => {
-    test("should return 401 the user doesen't pass authentication", async () => {
+    beforeEach(() => {
+      responseSpy.mockClear();
+    });
+    test("should return 401 if the user doesen't pass authentication", async () => {
       const request = {};
 
       authenticateApiKey.mockImplementationOnce(() => false);
       parseEmailFromRequest.mockImplementationOnce(() => "");
 
-      const response = await httpFunction(context, request);
-      expect(response.status).toEqual(401);
+      await httpFunction(request, response);
+      expect(responseSpy).toHaveBeenCalledWith(new Error("mockProcessJob has rejected"));
     });
 
     test("should return 400 when the email is invalid", async () => {
