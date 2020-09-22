@@ -1,6 +1,6 @@
 const authenticateApiKey = (functions, requestObject) => {
   const { headers } = requestObject;
-  const correctKey = process.env.API_KEY;
+  const correctKey = functions.config().subscribe.mailchimp_api_key;
 
   if (correctKey === undefined) {
     functions.logger.error("ERROR: UNSET API KEY ENV VAR", { structuredData: true });

@@ -1,15 +1,14 @@
 const axios = require("axios");
+const functions = require('firebase-functions');
 
 const mailchimpConfiguration = {
-  userName: `${process.env.MAILCHIMP_USER}`,
-  password: `${process.env.MAILCHIMP_SECRET}`,
-  endpoint: `${process.env.MAILCHIMP_SUBSCRIBERS_ENDPOINT}`,
+  authKey: functions.config().subscribe.mailchimp_api_key,
+  endpoint: functions.config().subscribe.mailchimp_subscription_endpoint,
 };
 
 const requestConfiguration = {
-  auth: {
-    username: mailchimpConfiguration.userName,
-    password: mailchimpConfiguration.password,
+  user: {
+    key: mailchimpConfiguration.authKey,
   },
   headers: {
     "Content-Type": "application/json",
