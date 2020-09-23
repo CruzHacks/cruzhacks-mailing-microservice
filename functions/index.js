@@ -5,6 +5,15 @@ const { addToMailingList } = require("./mailing/mailchimp");
 
 exports.subscribe = functions.https.onRequest(async (request, response) => {
   // TODO: refactor tests with firebase changes
+  if (request.method === "OPTIONS") {
+    response.set("Access-Control-Allow-Origin", "https://www.cruzhacks.com");
+    response.set("Access-Control-Allow-Methods", "POST");
+    response.set("Access-Control-Allow-Headers", "authentication, Content-Type");
+    response.status(200).send({
+      status: 200,
+      message: "We accept you!"
+    });
+  }
 
   const isAuthenticated = authenticateApiKey(functions, request);
   const requestEmail = parseEmailFromRequest(request);
