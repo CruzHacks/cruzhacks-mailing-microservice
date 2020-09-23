@@ -14,6 +14,7 @@
   },
   "main": "index.js",
   "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.15",
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "firebase-admin": "^8.10.0",

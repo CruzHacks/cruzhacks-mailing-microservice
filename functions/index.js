@@ -4,9 +4,7 @@ const { authenticateApiKey, parseEmailFromRequest } = require("./mailing/middlew
 const { addToMailingList } = require("./mailing/mailchimp");
 
 exports.subscribe = functions.https.onRequest(async (request, response) => {
-  // TODO: refactor tests with firebase changes
-  console.log("In here", request.method);
-  response.set("Access-Control-Allow-Origin", "*");
+  response.set("Access-Control-Allow-Origin", "https://www.cruzhacks.com");
   if (request.method === "OPTIONS") {
     response.set("Access-Control-Allow-Methods", "POST");
     response.set("Access-Control-Allow-Headers", "authentication, Content-Type");
@@ -14,7 +12,6 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
   } else {
     const isAuthenticated = authenticateApiKey(functions, request);
     const requestEmail = parseEmailFromRequest(request);
-    console.log(isAuthenticated, requestEmail);
 
     if (isAuthenticated === false) {
       response.status(401).send({
@@ -29,13 +26,21 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
         message: "Invalid or missing email in request body",
       });
     } else {
-      await addToMailingList(functions, requestEmail).then((response) => (
-        response.status(200).send({
-          error: false,
-          status: 200,
-          message: `${requestEmail} added to the mailing list`,
-        })
-      )).catch(error => {
+      await addToMailingList(functions, requestEmail).then((res) => {
+        if (res.status === 200) {
+          return response.status(200).send({
+            error: false,
+            status: 200,
+            message: `${requestEmail} is already subscribed`,
+          });
+        } else {
+          return response.status(201).send({
+            error: false,
+            status: 201,
+            message: `${requestEmail} added to the mailing list`,
+          });
+        }
+      }).catch(error => {
         response.status(500).send({
           error: true,
           status: 500,
