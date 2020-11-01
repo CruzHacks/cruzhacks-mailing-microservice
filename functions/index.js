@@ -4,11 +4,12 @@ const { authenticateApiKey, parseEmailFromRequest } = require("./mailing/middlew
 const { addToMailingList } = require("./mailing/mailchimp");
 
 exports.subscribe = functions.https.onRequest(async (request, response) => {
-  response.set("Access-Control-Allow-Origin", "cruzhacks.com");
+  response.set("Access-Control-Allow-Origin", "*");
+  response.set("Vary", "Origin");
   if (request.method === "OPTIONS") {
     response.set("Access-Control-Allow-Methods", "POST");
     response.set("Access-Control-Allow-Headers", "authentication, Content-Type");
-    response.status(200).send('');
+    response.status(200).send("");
   } else {
     const isAuthenticated = authenticateApiKey(functions, request);
     const requestEmail = parseEmailFromRequest(request);
@@ -26,27 +27,29 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
         message: "Invalid or missing email in request body",
       });
     } else {
-      await addToMailingList(functions, requestEmail).then((res) => {
-        if (res.status === 200) {
-          return response.status(200).send({
-            error: false,
-            status: 200,
-            message: `${requestEmail} is already subscribed`,
+      await addToMailingList(functions, requestEmail)
+        .then(res => {
+          if (res.status === 200) {
+            return response.status(200).send({
+              error: false,
+              status: 200,
+              message: `${requestEmail} is already subscribed`,
+            });
+          } else {
+            return response.status(201).send({
+              error: false,
+              status: 201,
+              message: `${requestEmail} added to the mailing list`,
+            });
+          }
+        })
+        .catch(error => {
+          response.status(500).send({
+            error: true,
+            status: 500,
+            message: error.message,
           });
-        } else {
-          return response.status(201).send({
-            error: false,
-            status: 201,
-            message: `${requestEmail} added to the mailing list`,
-          });
-        }
-      }).catch(error => {
-        response.status(500).send({
-          error: true,
-          status: 500,
-          message: error.message,
         });
-      });
     }
   }
 });
