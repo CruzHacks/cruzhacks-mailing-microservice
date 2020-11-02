@@ -4,10 +4,11 @@
     "ecmaVersion": 2017
   },
   "plugins": [
-    "promise"
+    "promise", "prettier", "jest"
   ],
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "rules": {
+    "prettier/prettier": "error",
     // Removed rule "disallow the use of console" from recommended eslint rules
     "no-console": "off",
 
