@@ -24,8 +24,9 @@ const requestConfiguration = {
 };
 
 async function addToMailingList(functions, email) {
+  const mailchimpListID = functions.config().subscribe.mailchimp_list_id;
   const response = await mailchimp.lists
-    .addListMember("776764ba24", {
+    .addListMember(mailchimpListID, {
       email_address: email,
       status: "subscribed",
     })
