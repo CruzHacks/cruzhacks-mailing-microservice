@@ -15,21 +15,18 @@
   "main": "index.js",
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.15",
-    "axios": "^0.19.2",
-    "dotenv": "^8.2.0",
-    "firebase-admin": "^8.10.0",
-    "firebase-functions": "^3.6.1",
-    "jest": "^24.9.0",
-    "knex": "^0.20.1",
-    "pg": "^7.12.1"
+    "firebase-admin": "^9.3.0",
+    "firebase-functions": "^3.11.0"
   },
   "devDependencies": {
+    "axios": "^0.21.0",
     "eslint": "^5.12.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-jest": "^23.0.4",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-promise": "^4.0.1",
-    "firebase-functions-test": "^0.2.0",
+    "firebase-functions-test": "^0.2.3",
+    "jest": "^26.6.1",
     "prettier": "^1.19.1"
   },
   "private": true
