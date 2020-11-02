@@ -4,7 +4,8 @@ const { authenticateApiKey, parseEmailFromRequest } = require("./mailing/middlew
 const { addToMailingList } = require("./mailing/mailchimp");
 
 exports.subscribe = functions.https.onRequest(async (request, response) => {
-  response.set("Access-Control-Allow-Origin", "*");
+  const subdomain = request.headers.origin.split("//")[1].split(".")[0];
+  response.set("Access-Control-Allow-Origin", `${subdomain}.cruzhacks.com`);
   response.set("Vary", "Origin");
   if (request.method === "OPTIONS") {
     response.set("Access-Control-Allow-Methods", "POST");
