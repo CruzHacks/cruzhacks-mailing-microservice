@@ -3,6 +3,7 @@
   "description": "Cloud Function on Firebase serving email subscribes to Mailchimp",
   "scripts": {
     "lint": "eslint .",
+    "test": "jest",
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
