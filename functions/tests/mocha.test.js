@@ -1,5 +1,4 @@
 const chai = require("chai");
-const { done } = require("fetch-mock");
 const fetchMock = require("fetch-mock");
 const firebaseConfig = require("firebase-functions-test")();
 const subscribe = require("../index");
