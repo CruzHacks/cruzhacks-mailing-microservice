@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest 
     steps: 
       - uses: actions/checkout@v2
-      - name: Install npm packages
+      - name: Install Dependencies
         run: |
             cd functions
             yarn install --frozen-lockfile
