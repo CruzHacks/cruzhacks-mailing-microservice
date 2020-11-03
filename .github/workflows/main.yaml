@@ -1,7 +1,17 @@
 name: cruzhacks-mailing-service
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: *
+
+jobs:
+  linter: 
+    runs-on: ubuntu-latest 
+    steps: 
+      - uses: actions/checkout@v2
+      - name: Install npm packages
+        run: |
+            cd functions
+            yarn install --frozen-lockfile
+      - name: Running linter
+        run: |
+            cd functions 
+            yarn lint
