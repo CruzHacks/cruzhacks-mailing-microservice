@@ -7,7 +7,7 @@ describe("mailchimp unit tests", () => {
   test("should return true when request suceeds", () => {
     mockAxios.post.mockImplementationOnce(() => Promise.resolve({ data: {} }));
     const fakeContext = {
-      log: jest.fn(),
+      log: jest.fn()
     };
     return expect(addToMailingList(fakeContext, email)).resolves.toBe(true);
   });
@@ -15,21 +15,24 @@ describe("mailchimp unit tests", () => {
   test("should return error message when request fails", () => {
     const fakeContext = {
       log: {
-        error: jest.fn(),
-      },
+        error: jest.fn()
+      }
     };
     const errorResponse = {
       isAxiosError: true,
       response: {
         status: 401,
         data: {
-          detail: "hankturkey@ucsc.edu is already a list member...",
-        },
-      },
+          detail: "hankturkey@ucsc.edu is already a list member..."
+        }
+      }
     };
-    const targetErrorMessage = "Mailchimp Error: hankturkey@ucsc.edu is already a list member...";
+    const targetErrorMessage =
+      "Mailchimp Error: hankturkey@ucsc.edu is already a list member...";
 
     mockAxios.post.mockImplementationOnce(() => Promise.reject(errorResponse));
-    return expect(addToMailingList(fakeContext, email)).rejects.toThrow(targetErrorMessage);
+    return expect(addToMailingList(fakeContext, email)).rejects.toThrow(
+      targetErrorMessage
+    );
   });
 });

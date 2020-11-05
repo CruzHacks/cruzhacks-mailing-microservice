@@ -3,6 +3,6 @@ module.exports = {
   done: jest.fn(),
   logger: {
     error: jest.fn(),
-    info: jest.fn(),
-  },
+    info: jest.fn()
+  }
 };

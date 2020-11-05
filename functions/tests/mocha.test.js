@@ -8,7 +8,7 @@ firebaseConfig.mockConfig({
   mailchimp_server: "us9",
   react_app_api_key: "token",
   mailchimp_api_key: "mailchimp-token",
-  mailchimp_user_name: "user",
+  mailchimp_user_name: "user"
 });
 
 describe("subscribe Testing Suite", () => {
@@ -16,21 +16,23 @@ describe("subscribe Testing Suite", () => {
     fetchMock.restore();
   });
 
-  describe("when providing Invalid API Key", done => {
-    const request = {};
-    const response = {
-      status: status => {
-        chai.assert.equal(status, 401);
-        return res;
-      },
-      send: ({ error, status, message }) => {
-        chai.assert.equal(error, true);
-        done();
-      },
-    };
-
-    it("returns a 401 error status", () => {
-      subscribe.subscribe(request, response);
+  describe("when providing Invalid API Key", () => {
+    it("returns a 401 error status", async function(done) {
+      this.timeout(10000);
+      const request = {};
+      const response = {
+        status: status => {
+          chai.assert.equal(status, 401);
+          return response;
+        },
+        send: ({ error, status, message }) => {
+          chai.assert.equal(error, true);
+          chai.assert.equal(status, 401);
+          chai.assert.equal(message, "Unable to authenit");
+          done();
+        }
+      };
+      await subscribe.subscribe(request, response);
     });
   });
 });

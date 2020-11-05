@@ -1,3 +1,3 @@
 module.exports = {
-  post: jest.fn(() => Promise.resolve({})),
+  post: jest.fn(() => Promise.resolve({}))
 };
