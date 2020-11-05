@@ -12,17 +12,6 @@ mailchimp.setConfig({
   server: mailchimpConfiguration.server
 });
 
-const requestConfiguration = {
-  auth: {
-    user: mailchimpConfiguration.user,
-    password: mailchimpConfiguration.authKey
-  },
-  header: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*"
-  }
-};
-
 async function addToMailingList(functions, email) {
   const mailchimpListID = functions.config().subscribe.mailchimp_mail_id;
   const response = await mailchimp.lists

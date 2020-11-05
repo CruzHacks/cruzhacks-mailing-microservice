@@ -1,11 +1,11 @@
 const context = require("./defaultContext");
 const httpFunction = require("../index");
 
-const { addToMailingList } = require("./mailing/mailchimp");
+const { addToMailingList } = require("../mailing/mailchimp");
 const {
   authenticateApiKey,
   parseEmailFromRequest
-} = require("./mailing/middleware");
+} = require("../mailing/middleware");
 const response = {
   status: jest.fn(() => {
     return response.send;
@@ -14,8 +14,8 @@ const response = {
 };
 const responseSpy = jest.spyOn(response, "status").mockImplementation(() => {});
 
-jest.mock("../../mailing/middleware");
-jest.mock("../../mailing/mailchimp");
+jest.mock("../mailing/middleware");
+jest.mock("../mailing/mailchimp");
 
 describe("unit tests for index.js driver", () => {
   describe("test api key auth", () => {
