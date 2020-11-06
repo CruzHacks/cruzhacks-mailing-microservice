@@ -1,4 +1,12 @@
 const { addToMailingList } = require("../mailing/mailchimp");
+const testConfig = require("firebase-functions-test")();
+testConfig.mockConfig({
+  subscribe: {
+    mailchimp_api_key: "testKEY",
+    mailchimp_server: "us1",
+    mailchimp_user_name: "username"
+  }
+});
 jest.mock("../mailing/mailchimp");
 
 const functions = {

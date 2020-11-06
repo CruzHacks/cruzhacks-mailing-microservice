@@ -1,10 +1,21 @@
 const { subscribe } = require("../index");
-
 const { addToMailingList } = require("../mailing/mailchimp");
 const {
   authenticateApiKey,
   parseEmailFromRequest
 } = require("../mailing/middleware");
+
+jest.mock("../mailing/middleware");
+jest.mock("../mailing/mailchimp");
+
+const testConfig = require("firebase-functions-test")();
+testConfig.mockConfig({
+  subscribe: {
+    mailchimp_api_key: "testKEY",
+    mailchimp_server: "us1",
+    mailchimp_user_name: "username"
+  }
+});
 
 const response = {
   status: status => {
@@ -20,9 +31,6 @@ const response = {
     return response;
   }
 };
-
-jest.mock("../mailing/middleware");
-jest.mock("../mailing/mailchimp");
 
 describe("Main Function Test Suite", () => {
   beforeEach(() => {
