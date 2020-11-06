@@ -24,12 +24,13 @@ const response = {
 jest.mock("../mailing/middleware");
 jest.mock("../mailing/mailchimp");
 
-describe("unit tests for index.js driver", () => {
-  describe("test api key auth", () => {
-    beforeEach(() => {
-      response.status().send({ undefined });
-    });
-    test("should return 401 if the user does not pass authentication", async () => {
+describe("Main Function Test Suite", () => {
+  beforeEach(() => {
+    response.status().send({ undefined });
+  });
+
+  describe("when user does not pass authentication", () => {
+    it("should return 401 and set appropriate body fields", async () => {
       const request = {};
 
       authenticateApiKey.mockImplementationOnce(() => false);
@@ -41,8 +42,10 @@ describe("unit tests for index.js driver", () => {
       expect(response.body.status).toEqual(401);
       expect(response.body.message).toBe("Unable to authenticate request");
     });
+  });
 
-    test("should return 400 when the email is invalid", async () => {
+  describe("when the email is invalid or missing", () => {
+    test("should return 400 status code and set appropritate return fields", async () => {
       const request = {};
       authenticateApiKey.mockImplementationOnce(() => true);
       parseEmailFromRequest.mockImplementationOnce(() => null);
@@ -55,8 +58,10 @@ describe("unit tests for index.js driver", () => {
         "Invalid or missing email in request body"
       );
     });
+  });
 
-    test("should return 500 when adding the target email to mailchimp fails", async () => {
+  describe("when there is a Mailchimp error", () => {
+    test("should return 500 and set appropriate return fields", async () => {
       const request = {
         body: {
           email: "hankturkey@ucsc.edu"
@@ -73,6 +78,59 @@ describe("unit tests for index.js driver", () => {
       expect(response.body.error).toBeTruthy();
       expect(response.body.status).toEqual(500);
       expect(response.body.message).toBe("Mailchimp Error");
+    });
+  });
+
+  describe("when user exists in mailchimp", () => {
+    it("returns a 200 status code with its approprite fields", async () => {
+      const request = {
+        body: {
+          email: "hankturkey@ucsc.edu"
+        }
+      };
+      authenticateApiKey.mockImplementationOnce(() => true);
+      parseEmailFromRequest.mockImplementationOnce(() => "hankturkey@ucsc.edu");
+      addToMailingList.mockImplementationOnce(() =>
+        Promise.resolve({
+          message: "hankturkey@ucsc.edu already exists",
+          status: 200
+        })
+      );
+      await subscribe(request, response);
+
+      expect(response.statusCode).toEqual(200);
+      expect(response.body.error).toBeFalsy();
+      expect(response.body.status).toBe(200);
+      expect(response.body.message).toBe(
+        "hankturkey@ucsc.edu is already subscribed"
+      );
+    });
+  });
+
+  describe("when user is added to mailchimp list", () => {
+    it("returns a 201 status code with its approprite fields", async () => {
+      const request = {
+        body: {
+          email: "hankturkey@ucsc.edu"
+        }
+      };
+      authenticateApiKey.mockImplementationOnce(() => true);
+      parseEmailFromRequest.mockImplementationOnce(() => "hankturkey@ucsc.edu");
+      addToMailingList.mockImplementationOnce(() =>
+        Promise.resolve({
+          message:
+            "Successfully added hankturkey@ucsc.edu to the emailing list",
+          status: 201
+        })
+      );
+      await subscribe(request, response);
+
+      expect(response.statusCode).toEqual(201);
+      expect(response.body.error).toBeFalsy();
+      expect(response.body.status).toBe(201);
+      expect(response.body.message).toBe(
+        "hankturkey@ucsc.edu added to the mailing list"
+      );
     });
   });
 });
