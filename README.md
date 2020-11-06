@@ -1,57 +1,59 @@
 # CruzHacks Mailing Microservice
 
-[![Build Status](https://dev.azure.com/kyleobrien0535/CruzHacks%202020%20Website/_apis/build/status/mailing_service/CruzHacks.cruzhacks-mailing-microservice.CI?branchName=master)](https://dev.azure.com/kyleobrien0535/CruzHacks%202020%20Website/_build/latest?definitionId=12&branchName=master)
+![cruzhacks-mailing-service](https://github.com/CruzHacks/cruzhacks-mailing-microservice/workflows/cruzhacks-mailing-service/badge.svg)
 
-This Azure Function is responsible for the CruzHacks mailing list. This service uses the MailChimp REST API.
+This Firebase Function is responsible for the CruzHacks mailing list. This service uses the MailChimp REST API.
 
 ## Development
 
 ### Dependnecies
-
-- [Azure Function Cole Tools CLI](https://github.com/Azure/azure-functions-core-tools)
-- Local NPM packages --> `npm install`
+- Can be found inside `package.json` file. Installed using the following command: 
+  - `yarn` or `yarn -i` or `yarn install` within the `/functions` directory
 
 ### Start
 
-`func start`
+`yarn serve`
 
-or via Docker
-
-`docker build -t cruzhacks-mailing-service .`
-`docker run -p 7071:80 cruzhacks-mailing-service`
+* Begin an emulator suite at `localhost:4000` with your function being served at `localhost:5000`. You can navigate the UI of the Emulator Suite to find the actual endpoint. 
 
 ### Test
 
-This project uses [Jest](https://jestjs.io/). Run all tests via `npm run test`. 
+This project uses [Jest](https://jestjs.io/). Run all tests via `yarn test`. 
 
 ### Environment Variables
 
-`API_KEY`
-`MAILCHIMP_SECRET`
-`MAILCHIMP_USER`
-`MAILCHIMP_SUBSCRIBERS_ENDPOINT`
+Can be obtained by running `firebase functions:config:get > .runtimeconfig.json` within your `/functions` directory
 
 ## Request Schema
 
 ```shell
-curl --request POST \
-  --url http://localhost:7071/api/mailing \
+curl --request GET \
+  --url http://localhost:5001/cruzhacks-4a899/us-central1/subscribe \
   --header 'authentication: API_KEY' \
   --header 'content-type: application/json' \
   --data '{
     "email": "TEST@ucsc.com"
-}'
+  }'
 ```
 
 ## Response Schemas
 
-### Success
+### Successfully Added Email to Mailing List
 
 ```json
 {
   "error": false,
-  "status": 200,
+  "status": 201,
   "message": "TEST@ucsc.edu added to the mailing list"
+}
+```
+
+### User Already Exists 
+```json
+{
+  "error": false,
+  "status": 200,
+  "message": "TEST@ucsc.edu is already subscribed"
 }
 ```
 
@@ -65,22 +67,30 @@ curl --request POST \
 }
 ```
 
-### Internal or MailChimp Error
+### Missing Email in Request 
+```json 
+{
+  "error": true,
+  "status": 400,
+  "message": "Invalid or missing email in request body"
+}
+```
+
+### MailChimp Error
 
 ```json
 {
   "error": true,
   "status": 500,
-  "message": "Mailchimp Error: TEST@ucsc.edu is already a list member. Use PUT to insert or update list members."
+  "message": "Mailchimp Error: ERROR MESSGE HERE."
 }
 ```
 
 ## Technologies
 
-- Azure Functions
+- Firebase Functions
 - NodeJS
-- Docker
 - Jest
-- Azure Pipelines
+- Github Actions
 - Prettier
 - Eslint
