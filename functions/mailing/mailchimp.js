@@ -1,19 +1,17 @@
-const functions = require("firebase-functions");
 const mailchimp = require("@mailchimp/mailchimp_marketing");
-
-const mailchimpConfiguration = {
-  authKey: functions.config().subscribe.mailchimp_api_key,
-  server: functions.config().subscribe.mailchimp_server,
-  user: functions.config().subscribe.mailchimp_user_name
-};
-
-mailchimp.setConfig({
-  apiKey: mailchimpConfiguration.authKey,
-  server: mailchimpConfiguration.server
-});
 
 async function addToMailingList(functions, email) {
   const mailchimpListID = functions.config().subscribe.mailchimp_mail_id;
+  const mailchimpConfiguration = {
+    authKey: functions.config().subscribe.mailchimp_api_key,
+    server: functions.config().subscribe.mailchimp_server,
+    user: functions.config().subscribe.mailchimp_user_name
+  };
+
+  mailchimp.setConfig({
+    apiKey: mailchimpConfiguration.authKey,
+    server: mailchimpConfiguration.server
+  });
   const response = await mailchimp.lists
     .addListMember(mailchimpListID, {
       email_address: email,

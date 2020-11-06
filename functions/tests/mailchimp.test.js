@@ -11,11 +11,6 @@ jest.mock("../mailing/mailchimp");
 
 const functions = {
   config: () => {
-    // functions.subscribe = {
-    //   mailchimp_api_key: "testKEY",
-    //   mailchimp_server: "us1",
-    //   mailchimp_user_name: "username"
-    // };
     return testConfig.mockConfig();
   }
 };
