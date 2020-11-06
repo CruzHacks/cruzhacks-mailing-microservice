@@ -42,7 +42,7 @@ describe("Middleware Unit Tests", () => {
     });
   });
 
-  describe("tests for parsing the email from the request body", () => {
+  describe("Email Request Parsing Unit Tests", () => {
     test("should return target email", () => {
       const request = {
         body: {
