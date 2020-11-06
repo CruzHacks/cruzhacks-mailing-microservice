@@ -25,6 +25,7 @@ jobs:
         run: |
             cd functions 
             yarn lint
+
   test-suite:
     runs-on: ubuntu-latest
     steps:
@@ -44,7 +45,7 @@ jobs:
 
   auto-deploy:
     runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     needs: [test-suite, linter]
     steps:
       - uses: actions/checkout@v2
