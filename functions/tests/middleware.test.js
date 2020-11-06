@@ -1,7 +1,4 @@
-const {
-  authenticateApiKey,
-  parseEmailFromRequest
-} = require("../mailing/middleware");
+const { authenticateApiKey, parseEmailFromRequest } = require("../mailing/middleware");
 
 const testConfig = require("firebase-functions-test")();
 testConfig.mockConfig({ subscribe: { react_app_api_key: "testKEY" } });
@@ -9,7 +6,7 @@ testConfig.mockConfig({ subscribe: { react_app_api_key: "testKEY" } });
 const functions = {
   config: () => {
     return { subscribe: { react_app_api_key: "testKEY" } };
-  }
+  },
 };
 
 describe("Middleware Unit Tests", () => {
@@ -20,9 +17,9 @@ describe("Middleware Unit Tests", () => {
           accept: "*/*",
           host: "localhost:7071",
           "user-agent": "insomnia/7.0.3",
-          authentication: "testKEY"
+          authentication: "testKEY",
         },
-        query: {}
+        query: {},
       };
       expect(authenticateApiKey(functions, requestHeadersMock)).toBe(true);
     });
@@ -33,9 +30,9 @@ describe("Middleware Unit Tests", () => {
           accept: "*/*",
           host: "localhost:7071",
           "user-agent": "insomnia/7.0.3",
-          authentication: "WRONG_KEY"
+          authentication: "WRONG_KEY",
         },
-        query: {}
+        query: {},
       };
       process.env.API_KEY = "testKEY";
       expect(authenticateApiKey(functions, requestHeadersMock)).toBe(false);
@@ -46,8 +43,8 @@ describe("Middleware Unit Tests", () => {
     test("should return target email", () => {
       const request = {
         body: {
-          email: "hanktheturkey@ucsc.edu"
-        }
+          email: "hanktheturkey@ucsc.edu",
+        },
       };
       expect(parseEmailFromRequest(request)).toBe("hanktheturkey@ucsc.edu");
     });
@@ -55,15 +52,15 @@ describe("Middleware Unit Tests", () => {
     test("should return target email with symbols", () => {
       const request = {
         body: {
-          email: "han-kth+eturkey@ucsc.edu"
-        }
+          email: "han-kth+eturkey@ucsc.edu",
+        },
       };
       expect(parseEmailFromRequest(request)).toBe("han-kth+eturkey@ucsc.edu");
     });
 
     test("should return null for missing email", () => {
       const request = {
-        body: {}
+        body: {},
       };
       expect(parseEmailFromRequest(request)).toBe(null);
     });
@@ -71,8 +68,8 @@ describe("Middleware Unit Tests", () => {
     test("should return null for invalid email", () => {
       const request = {
         body: {
-          email: "hankturkey.edu"
-        }
+          email: "hankturkey.edu",
+        },
       };
       expect(parseEmailFromRequest(request)).toBe(null);
     });
@@ -80,8 +77,8 @@ describe("Middleware Unit Tests", () => {
     test("should return null for null email", () => {
       const request = {
         body: {
-          email: null
-        }
+          email: null,
+        },
       };
       expect(parseEmailFromRequest(request)).toBe(null);
     });

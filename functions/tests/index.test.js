@@ -1,9 +1,6 @@
 const { subscribe } = require("../index");
 const { addToMailingList } = require("../mailing/mailchimp");
-const {
-  authenticateApiKey,
-  parseEmailFromRequest
-} = require("../mailing/middleware");
+const { authenticateApiKey, parseEmailFromRequest } = require("../mailing/middleware");
 
 jest.mock("../mailing/middleware");
 jest.mock("../mailing/mailchimp");
@@ -13,8 +10,8 @@ testConfig.mockConfig({
   subscribe: {
     mailchimp_api_key: "testKEY",
     mailchimp_server: "us1",
-    mailchimp_user_name: "username"
-  }
+    mailchimp_user_name: "username",
+  },
 });
 
 const response = {
@@ -26,10 +23,10 @@ const response = {
     response.body = {
       error: error,
       status: status,
-      message: message
+      message: message,
     };
     return response;
-  }
+  },
 };
 
 describe("Main Function Test Suite", () => {
@@ -62,9 +59,7 @@ describe("Main Function Test Suite", () => {
       expect(response.statusCode).toEqual(400);
       expect(response.body.error).toBeTruthy();
       expect(response.body.status).toEqual(400);
-      expect(response.body.message).toBe(
-        "Invalid or missing email in request body"
-      );
+      expect(response.body.message).toBe("Invalid or missing email in request body");
     });
   });
 
@@ -72,14 +67,12 @@ describe("Main Function Test Suite", () => {
     test("should return 500 and set appropriate return fields", async () => {
       const request = {
         body: {
-          email: "hankturkey@ucsc.edu"
-        }
+          email: "hankturkey@ucsc.edu",
+        },
       };
       authenticateApiKey.mockImplementationOnce(() => true);
       parseEmailFromRequest.mockImplementationOnce(() => "hankturkey@ucsc.edu");
-      addToMailingList.mockImplementationOnce(() =>
-        Promise.reject(new Error("Mailchimp Error"))
-      );
+      addToMailingList.mockImplementationOnce(() => Promise.reject(new Error("Mailchimp Error")));
 
       await subscribe(request, response);
       expect(response.statusCode).toEqual(500);
@@ -93,25 +86,23 @@ describe("Main Function Test Suite", () => {
     it("returns a 200 status code with its approprite fields", async () => {
       const request = {
         body: {
-          email: "hankturkey@ucsc.edu"
-        }
+          email: "hankturkey@ucsc.edu",
+        },
       };
       authenticateApiKey.mockImplementationOnce(() => true);
       parseEmailFromRequest.mockImplementationOnce(() => "hankturkey@ucsc.edu");
       addToMailingList.mockImplementationOnce(() =>
         Promise.resolve({
           message: "hankturkey@ucsc.edu already exists",
-          status: 200
-        })
+          status: 200,
+        }),
       );
       await subscribe(request, response);
 
       expect(response.statusCode).toEqual(200);
       expect(response.body.error).toBeFalsy();
       expect(response.body.status).toBe(200);
-      expect(response.body.message).toBe(
-        "hankturkey@ucsc.edu is already subscribed"
-      );
+      expect(response.body.message).toBe("hankturkey@ucsc.edu is already subscribed");
     });
   });
 
@@ -119,26 +110,23 @@ describe("Main Function Test Suite", () => {
     it("returns a 201 status code with its approprite fields", async () => {
       const request = {
         body: {
-          email: "hankturkey@ucsc.edu"
-        }
+          email: "hankturkey@ucsc.edu",
+        },
       };
       authenticateApiKey.mockImplementationOnce(() => true);
       parseEmailFromRequest.mockImplementationOnce(() => "hankturkey@ucsc.edu");
       addToMailingList.mockImplementationOnce(() =>
         Promise.resolve({
-          message:
-            "Successfully added hankturkey@ucsc.edu to the emailing list",
-          status: 201
-        })
+          message: "Successfully added hankturkey@ucsc.edu to the emailing list",
+          status: 201,
+        }),
       );
       await subscribe(request, response);
 
       expect(response.statusCode).toEqual(201);
       expect(response.body.error).toBeFalsy();
       expect(response.body.status).toBe(201);
-      expect(response.body.message).toBe(
-        "hankturkey@ucsc.edu added to the mailing list"
-      );
+      expect(response.body.message).toBe("hankturkey@ucsc.edu added to the mailing list");
     });
   });
 });

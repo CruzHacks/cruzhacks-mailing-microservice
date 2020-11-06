@@ -1,24 +1,15 @@
 const functions = require("firebase-functions");
 
-const {
-  authenticateApiKey,
-  parseEmailFromRequest
-} = require("./mailing/middleware");
+const { authenticateApiKey, parseEmailFromRequest } = require("./mailing/middleware");
 const { addToMailingList } = require("./mailing/mailchimp");
 
 exports.subscribe = functions.https.onRequest(async (request, response) => {
   if (request.method === "OPTIONS") {
     const subdomain = request.headers.origin.split("//")[1].split(".")[0];
-    response.set(
-      "Access-Control-Allow-Origin",
-      `https://${subdomain}.cruzhacks.com`
-    );
+    response.set("Access-Control-Allow-Origin", `https://${subdomain}.cruzhacks.com`);
     response.set("Vary", "Origin");
     response.set("Access-Control-Allow-Methods", "POST");
-    response.set(
-      "Access-Control-Allow-Headers",
-      "authentication, Content-Type"
-    );
+    response.set("Access-Control-Allow-Headers", "authentication, Content-Type");
     response.status(200).send("");
   } else {
     const isAuthenticated = authenticateApiKey(functions, request);
@@ -27,13 +18,13 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
       response.status(401).send({
         error: true,
         status: 401,
-        message: "Unable to authenticate request"
+        message: "Unable to authenticate request",
       });
     } else if (requestEmail === null) {
       response.status(400).send({
         error: true,
         status: 400,
-        message: "Invalid or missing email in request body"
+        message: "Invalid or missing email in request body",
       });
     } else {
       await addToMailingList(functions, requestEmail)
@@ -42,13 +33,13 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
             return response.status(200).send({
               error: false,
               status: 200,
-              message: `${requestEmail} is already subscribed`
+              message: `${requestEmail} is already subscribed`,
             });
           } else {
             return response.status(201).send({
               error: false,
               status: 201,
-              message: `${requestEmail} added to the mailing list`
+              message: `${requestEmail} added to the mailing list`,
             });
           }
         })
@@ -56,7 +47,7 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
           response.status(500).send({
             error: true,
             status: 500,
-            message: error.message
+            message: error.message,
           });
         });
     }

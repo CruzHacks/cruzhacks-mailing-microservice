@@ -3,10 +3,9 @@ module.exports = {
         "ecmaVersion": 2017,
         "sourceType": "module"
     }, 
-    plugins: ["promise", "prettier", "mocha"],
+    plugins: ["promise", "prettier", "jest"],
     rules: {
         "prettier/prettier": "error",
-        "mocha/no-mocha-arrows": "off",
 
         "no-unused-vars": [
             "error",
@@ -39,5 +38,5 @@ module.exports = {
         // Warn against nested then() or catch() statements
         "promise/no-nesting": 1
     }, 
-    extends: ["eslint:recommended", "plugin:prettier/recommended", "plugin:mocha/recommended"]
+    extends: ["eslint:recommended", "plugin:prettier/recommended", "plugin:jest/recommended"]
 }

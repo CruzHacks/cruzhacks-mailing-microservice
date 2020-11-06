@@ -4,7 +4,7 @@ const authenticateApiKey = (functions, requestObject) => {
 
   if (correctKey === undefined) {
     functions.logger.error("ERROR: UNSET API KEY ENV VAR", {
-      structuredData: true
+      structuredData: true,
     });
     return false;
   }
@@ -15,10 +15,7 @@ const authenticateApiKey = (functions, requestObject) => {
 const parseEmailFromRequest = requestObject => {
   const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-  if (
-    requestObject.body === undefined ||
-    !emailRegexp.test(requestObject.body.email)
-  ) {
+  if (requestObject.body === undefined || !emailRegexp.test(requestObject.body.email)) {
     return null;
   }
 
@@ -27,5 +24,5 @@ const parseEmailFromRequest = requestObject => {
 
 module.exports = {
   authenticateApiKey,
-  parseEmailFromRequest
+  parseEmailFromRequest,
 };

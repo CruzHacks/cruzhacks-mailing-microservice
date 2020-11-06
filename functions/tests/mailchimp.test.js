@@ -4,15 +4,15 @@ testConfig.mockConfig({
   subscribe: {
     mailchimp_api_key: "testKEY",
     mailchimp_server: "us1",
-    mailchimp_user_name: "username"
-  }
+    mailchimp_user_name: "username",
+  },
 });
 jest.mock("../mailing/mailchimp");
 
 const functions = {
   config: () => {
     return testConfig.mockConfig();
-  }
+  },
 };
 
 describe("Mailchimp API Unit Tests", () => {
@@ -22,12 +22,12 @@ describe("Mailchimp API Unit Tests", () => {
       addToMailingList.mockImplementationOnce(() =>
         Promise.resolve({
           message: `Successfully added ${email} to the emailing list`,
-          status: 201
-        })
+          status: 201,
+        }),
       );
       return expect(addToMailingList(functions, email)).resolves.toStrictEqual({
         message: `Successfully added ${email} to the emailing list`,
-        status: 201
+        status: 201,
       });
     });
   });
@@ -37,12 +37,12 @@ describe("Mailchimp API Unit Tests", () => {
       addToMailingList.mockImplementationOnce(() =>
         Promise.resolve({
           message: `${email} already exists`,
-          status: 200
-        })
+          status: 200,
+        }),
       );
       return expect(addToMailingList(functions, email)).resolves.toStrictEqual({
         message: `${email} already exists`,
-        status: 200
+        status: 200,
       });
     });
   });
@@ -50,11 +50,9 @@ describe("Mailchimp API Unit Tests", () => {
   describe("when there is a mailchimp error", () => {
     test("should return error message when request fails", () => {
       addToMailingList.mockImplementationOnce(() =>
-        Promise.reject(new Error("Mailchimp Error: Something went wrong!"))
+        Promise.reject(new Error("Mailchimp Error: Something went wrong!")),
       );
-      return expect(addToMailingList(functions, email)).rejects.toThrow(
-        "Mailchimp Error: Something went wrong!"
-      );
+      return expect(addToMailingList(functions, email)).rejects.toThrow("Mailchimp Error: Something went wrong!");
     });
   });
 });
