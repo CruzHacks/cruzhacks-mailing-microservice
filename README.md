@@ -1,6 +1,6 @@
 # CruzHacks Mailing Microservice
 
-![cruzhacks-mailing-service](https://github.com/CruzHacks/cruzhacks-mailing-microservice/workflows/cruzhacks-mailing-microservice/badge.svg)
+![cruzhacks-mailing-service](https://github.com/CruzHacks/cruzhacks-mailing-microservice/workflows/cruzhacks-mailing-service/badge.svg)
 
 This Firebase Function is responsible for the CruzHacks mailing list. This service uses the MailChimp REST API.
 
