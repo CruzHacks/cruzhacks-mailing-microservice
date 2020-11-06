@@ -21,3 +21,15 @@ jobs:
         run: |
             cd functions 
             yarn lint
+  test-suite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+            cd functions
+            yarn install --frozen-lockfile
+      - name: Run Testing Suite
+        run: |
+            cd functions
+            yarn test:ci
