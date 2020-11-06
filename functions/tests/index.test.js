@@ -27,6 +27,7 @@ const response = {
     };
     return response;
   },
+  set: () => {},
 };
 
 describe("Main Function Test Suite", () => {
@@ -36,7 +37,12 @@ describe("Main Function Test Suite", () => {
 
   describe("when user does not pass authentication", () => {
     it("should return 401 and set appropriate body fields", async () => {
-      const request = {};
+      const request = {
+        headers: {
+          origin: "http://www.cruzhacks.com",
+        },
+        method: "GET",
+      };
 
       authenticateApiKey.mockImplementationOnce(() => false);
       parseEmailFromRequest.mockImplementationOnce(() => "");
@@ -51,7 +57,12 @@ describe("Main Function Test Suite", () => {
 
   describe("when the email is invalid or missing", () => {
     test("should return 400 status code and set appropritate return fields", async () => {
-      const request = {};
+      const request = {
+        headers: {
+          origin: "http://www.cruzhacks.com",
+        },
+        method: "GET",
+      };
       authenticateApiKey.mockImplementationOnce(() => true);
       parseEmailFromRequest.mockImplementationOnce(() => null);
 
@@ -66,6 +77,10 @@ describe("Main Function Test Suite", () => {
   describe("when there is a Mailchimp error", () => {
     test("should return 500 and set appropriate return fields", async () => {
       const request = {
+        headers: {
+          origin: "http://www.cruzhacks.com",
+        },
+        method: "GET",
         body: {
           email: "hankturkey@ucsc.edu",
         },
@@ -85,6 +100,10 @@ describe("Main Function Test Suite", () => {
   describe("when user exists in mailchimp", () => {
     it("returns a 200 status code with its approprite fields", async () => {
       const request = {
+        headers: {
+          origin: "http://www.cruzhacks.com",
+        },
+        method: "GET",
         body: {
           email: "hankturkey@ucsc.edu",
         },
@@ -109,6 +128,10 @@ describe("Main Function Test Suite", () => {
   describe("when user is added to mailchimp list", () => {
     it("returns a 201 status code with its approprite fields", async () => {
       const request = {
+        headers: {
+          origin: "http://www.cruzhacks.com",
+        },
+        method: "GET",
         body: {
           email: "hankturkey@ucsc.edu",
         },

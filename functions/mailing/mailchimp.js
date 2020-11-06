@@ -1,6 +1,6 @@
 const mailchimp = require("@mailchimp/mailchimp_marketing");
 
-async function addToMailingList(functions, email) {
+function configMailchimp({ functions }) {
   const mailchimpListID = functions.config().subscribe.mailchimp_mail_id;
   const mailchimpConfiguration = {
     authKey: functions.config().subscribe.mailchimp_api_key,
@@ -12,8 +12,14 @@ async function addToMailingList(functions, email) {
     apiKey: mailchimpConfiguration.authKey,
     server: mailchimpConfiguration.server,
   });
+
+  return mailchimpListID;
+}
+
+async function addToMailingList(functions, email) {
+  const listID = configMailchimp({ functions });
   const response = await mailchimp.lists
-    .addListMember(mailchimpListID, {
+    .addListMember(listID, {
       email_address: email,
       status: "subscribed",
     })
