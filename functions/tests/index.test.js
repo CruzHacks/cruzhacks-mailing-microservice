@@ -15,7 +15,7 @@ testConfig.mockConfig({
 });
 
 const response = {
-  status: status => {
+  status: (status) => {
     response.statusCode = status;
     return response;
   },

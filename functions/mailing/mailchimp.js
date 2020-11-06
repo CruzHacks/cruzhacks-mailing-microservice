@@ -23,14 +23,14 @@ async function addToMailingList(functions, email) {
       email_address: email,
       status: "subscribed",
     })
-    .then(response => {
+    .then((response) => {
       functions.logger.info(response.id);
       return Promise.resolve({
         message: `Successfully added ${email} to the emailing list`,
         status: 201,
       });
     })
-    .catch(error => {
+    .catch((error) => {
       const res = error.response.body.title;
       if (res.includes("Member Exists")) {
         functions.logger.info(JSON.stringify(res, null, 2));

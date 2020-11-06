@@ -28,7 +28,7 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
       });
     } else {
       await addToMailingList(functions, requestEmail)
-        .then(res => {
+        .then((res) => {
           if (res.status === 200) {
             return response.status(200).send({
               error: false,
@@ -43,7 +43,7 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
             });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           response.status(500).send({
             error: true,
             status: 500,
