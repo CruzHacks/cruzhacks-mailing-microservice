@@ -23,7 +23,6 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
   } else {
     const isAuthenticated = authenticateApiKey(functions, request);
     const requestEmail = parseEmailFromRequest(request);
-
     if (isAuthenticated === false) {
       response.status(401).send({
         error: true,
