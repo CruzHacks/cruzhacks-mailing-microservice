@@ -41,3 +41,24 @@ jobs:
         run: |
             cd functions
             yarn test:ci
+
+  auto-deploy:
+    runs-on: ubuntu-latest
+    # if: github.ref == 'refs/heads/main'
+    needs: [test-suite, linter]
+    steps:
+      - uses: action/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.13.0
+      - name: Install Dependencies
+        run: |
+            cd functions
+            yarn install --frozen-lockfile
+      - name: Auto Deploy functions
+        run: |
+            cd functions
+            yarn deploy --token $token
+        env: 
+          token: ${{ secrets.FIREBASE_TOKEN }}
