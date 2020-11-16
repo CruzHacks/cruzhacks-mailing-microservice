@@ -18,7 +18,7 @@
   "main": "index.js",
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.15",
-    "firebase-admin": "^9.3.0",
+    "firebase-admin": "^9.4.1",
     "firebase-functions": "^3.11.0"
   },
   "devDependencies": {
