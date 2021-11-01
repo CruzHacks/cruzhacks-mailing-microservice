@@ -24,6 +24,8 @@ This project uses [Jest](https://jestjs.io/). Run all tests via `yarn test`.
 
 Can be obtained by running `firebase functions:config:get > .runtimeconfig.json` within your `/functions` directory
 
+Can be set by running `firebase functions:config:set example.key="val"`
+
 ## Request Schema
 
 ```shell
