@@ -15,6 +15,7 @@ This Firebase Function is responsible for the CruzHacks mailing list. This servi
 `yarn serve`
 
 * Begin an emulator suite at `localhost:4000` with your function being served at `localhost:5000`. You can navigate the UI of the Emulator Suite to find the actual endpoint. 
+* Note: Cors must properly be configured on the client side
 
 ### Test
 
