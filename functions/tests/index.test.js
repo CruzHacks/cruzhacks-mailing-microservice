@@ -12,8 +12,8 @@ testConfig.mockConfig({
     mailchimp_user_name: "username",
   },
   auth: {
-    cors: "http://www.cruzhacks.com"
-  }
+    cors: "http://www.cruzhacks.com",
+  },
 });
 const { subscribe } = require("../index");
 

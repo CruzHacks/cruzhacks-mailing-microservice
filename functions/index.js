@@ -3,7 +3,7 @@ const functions = require("firebase-functions");
 const { authenticateApiKey, parseEmailFromRequest } = require("./mailing/middleware");
 const { addToMailingList } = require("./mailing/mailchimp");
 const allowedOrigins = functions.config().auth.cors;
-console.log(allowedOrigins)
+console.log(allowedOrigins);
 exports.subscribe = functions.https.onRequest(async (request, response) => {
   //const subdomain = request.headers.origin.split("//")[1].split(".")[0];
   //response.set("Access-Control-Allow-Origin", `https://${subdomain}.cruzhacks.com`);
