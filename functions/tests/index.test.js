@@ -1,4 +1,3 @@
-const { subscribe } = require("../index");
 const { addToMailingList } = require("../mailing/mailchimp");
 const { authenticateApiKey, parseEmailFromRequest } = require("../mailing/middleware");
 
@@ -12,7 +11,11 @@ testConfig.mockConfig({
     mailchimp_server: "us1",
     mailchimp_user_name: "username",
   },
+  auth: {
+    cors: "http://www.cruzhacks.com",
+  },
 });
+const { subscribe } = require("../index");
 
 const response = {
   status: (status) => {
